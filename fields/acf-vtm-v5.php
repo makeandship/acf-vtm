@@ -77,7 +77,7 @@ class acf_field_vtm extends acf_field {
 			'allow_null' 	=> 0,
 			'multiple'		=> 0,
 		);
-		$this->api = new MedicinesApi();
+		$this->api = new MedicinesClient();
 		
 		
 		/*
