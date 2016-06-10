@@ -15,45 +15,6 @@ class acf_field_vtm extends acf_field {
 	
 	private $jsonpath = null;
 	
-	const MEDICINES_FIELDS = array(
-		"vtm_id" => "id",
-		"vtm_name" => "name",
-		"vtm_applicable_from" => "applicable_from",
-		
-		"vmp_id" => "virtual_medicinal_products[0].id",
-		"vmp_applicable_from" => "virtual_medicinal_products[0].applicable_from",
-		"vmp_name" => "virtual_medicinal_products[0].name",
-		"vmp_name_standard" => null,
-		"vmp_name_applicable_from" => "virtual_medicinal_products[0].name_applicable_from",
-		"vmp_sugar_free" => "virtual_medicinal_products[0].sugar_free",
-		"vmp_gluten_free" => "virtual_medicinal_products[0].gluten_free",
-		"vmp_preservative_free" => "virtual_medicinal_products[0].preservative_free",
-		"vmp_cfc_free" => "virtual_medicinal_products[0].cfc_free",
-		"vmp_prescribing_status" => "virtual_medicinal_products[0].prescribing_status",
-		"vmp_dose_form_indicator" => "virtual_medicinal_products[0].unit_dose_form",
-		"vmp_dose_form_size" => "virtual_medicinal_products[0].unit_dose_form_size",
-		"vmp_dose_form_units" => "virtual_medicinal_products[0].unit_dose_form_units",
-		"vmp_dose_form_unit_measure" => "virtual_medicinal_products[0].unit_dose_unit_of_measure",
-		
-		"amp_id" => "virtual_medicinal_products[0].actual_medicinal_products[0].id",
-		"amp_pack_description" => "virtual_medicinal_products[0].actual_medicinal_products[0].summary",
-		"amp_combination_pack_indicator" => "virtual_medicinal_products[0].actual_medicinal_products[0].combination_product",
-		"amp_quantity" => null,
-		"amp_quantity_units" => null,
-		
-		"vmpp_id" => "virtual_medicinal_products[0].virtual_medicinal_product_packs[0].id",
-		"vmpp_pack_description" => "virtual_medicinal_products[0].virtual_medicinal_product_packs[0].summary",
-		"vmpp_combination_pack_indicator" => "virtual_medicinal_products[0].virtual_medicinal_product_packs[0].combination_pack",
-		"vmpp_quantity" => "virtual_medicinal_products[0].virtual_medicinal_product_packs[0].quantity",
-		"vmpp_quantity_units" => "virtual_medicinal_products[0].virtual_medicinal_product_packs[0].quantity_measure",
-		
-		"ampp_name" => "virtual_medicinal_products[0].virtual_medicinal_product_packs[0].actual_medicinal_product_packs[0].name",
-		"ampp_combination_pack_indicator" => "virtual_medicinal_products[0].virtual_medicinal_product_packs[0].actual_medicinal_product_packs[0].ampp_combination_pack_indicator",
-		"ampp_sub_pack_information" => "virtual_medicinal_products[0].virtual_medicinal_product_packs[0].actual_medicinal_product_packs[0].sub_pack_information",
-		"ampp_legal_category" => "virtual_medicinal_products[0].virtual_medicinal_product_packs[0].actual_medicinal_product_packs[0].legal_category",
-		"ampp_price" => "virtual_medicinal_products[0].virtual_medicinal_product_packs[0].actual_medicinal_product_packs[0].medicinal_product_price.price"
-	);
-	
 	/*
 	*  __construct
 	*
@@ -106,10 +67,9 @@ class acf_field_vtm extends acf_field {
 	}
 
 	/*
-	*  get_ampps
+	*  find_vtms
 	*
-	*  load matches at AMPP level from DM+D given a partial 
-	*  virtual therapeutic moiety name 
+	*  Find all matching VTMs to a query against the medicines API
 	*
 	*  @type	function
 	*  @date	01/06/2016
@@ -118,13 +78,31 @@ class acf_field_vtm extends acf_field {
 	*  @param	$args post args (s contains the query)
 	*  @return	$results array of vtm -> [ampp] results 
 	*/
-	function get_ampps( $args ) {
+	function find_vtms( $query ) {
 		$query = array();
-		$query['name'] = $args['s'];
+		$query['name'] = $query;
 
-		$results = $this->api->ampps($query);
+		$results = $this->api->vtms($query);
 		
 		return $results;
+	}
+
+	/**
+	 * Transform a set of API results into id / text pairs
+	 */
+	function transform( $matches ) {
+		$transformed = array();
+
+		foreach($matches as $match) {
+			$entry = array(
+				'id' => $match['id'],
+				'text' => $match['name']
+			);
+
+			array_push($transformed, $entry)
+		}
+
+		return $transformed;
 	}
 	
 	/*
@@ -141,16 +119,15 @@ class acf_field_vtm extends acf_field {
 	*/
 	
 	function ajax_query() {
-
-		error_log('ajax_query');
-		error_log(print_r($_POST, true));
 		
 		// validate
 		if( !acf_verify_ajax() ) die();
 		
 		
 		// get choices
-		$choices = $this->get_ampps( $_POST );
+		$query = $_POST['s'];
+		$matches = $this->find_vtms($query);
+		$choices = $this->transform($matches);
 		
 		// validate
 		if( !$choices ) die();
@@ -158,6 +135,7 @@ class acf_field_vtm extends acf_field {
 		
 		// return JSON
 		$json = json_encode( $choices );
+		
 		//error_log($json);
 		echo $json;
 		die();
