@@ -1,7 +1,6 @@
 <?php
 
-require_once(__dir__.'/medicines-api.php');
-
+use Medicines\MedicinesClient;
 use Flow\JSONPath\JSONPath;
 
 // exit if accessed directly
