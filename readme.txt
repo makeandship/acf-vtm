@@ -1,4 +1,4 @@
-=== Advanced Custom Fields: Medicine Pack Field ===
+=== Advanced Custom Fields: Medicine Field ===
 Contributors: Make and Ship
 Tags: Medicine, NHS, Medical
 Requires at least: 3.5
@@ -20,8 +20,8 @@ This ACF field type is compatible with:
 == Installation ==
 
 1. Copy the `acf-vtm` folder into your `wp-content/plugins` folder
-2. Activate the Medicine Pack plugin via the plugins admin page
-3. Create a new field via ACF and select the Medicine Pack type
+2. Activate the Medicine plugin via the plugins admin page
+3. Create a new field via ACF and select the Medicine type
 4. Please refer to the description for more info regarding the field type settings
 
 == Changelog ==

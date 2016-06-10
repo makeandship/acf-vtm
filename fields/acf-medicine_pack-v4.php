@@ -28,7 +28,7 @@ class acf_field_vtm extends acf_field {
 	{
 		// vars
 		$this->name = 'vtm';
-		$this->label = __('Medicine Pack');
+		$this->label = __('Medicine (VTM)');
 		$this->category = __("Basic",'acf'); // Basic, Content, Choice, etc
 		$this->defaults = array(
 			// add default here to merge into your field. 
