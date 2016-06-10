@@ -1,0 +1,21 @@
+{
+    "name": "makeandship/acf-vtm",
+    "description": "Medicine field type for ACF",
+    "type": "wordpress-plugin",
+    "authors": [
+        {
+            "name": "Make and Ship Limited",
+            "homepage": "https://www.makeandship.com/"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/FlowCommunications/JSONPath.git"
+        }
+    ],
+    "require": {
+        "composer/installers": "*",
+        "flow/jsonpath": "dev-master"
+    }
+}
