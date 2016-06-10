@@ -78,9 +78,9 @@ class acf_field_vtm extends acf_field {
 	*  @param	$args post args (s contains the query)
 	*  @return	$results array of vtm -> [ampp] results 
 	*/
-	function find_vtms( $query ) {
+	function find_vtms( $name ) {
 		$query = array();
-		$query['name'] = $query;
+		$query['name'] = $name;
 
 		$results = $this->api->vtms($query);
 		
@@ -95,11 +95,11 @@ class acf_field_vtm extends acf_field {
 
 		foreach($matches as $match) {
 			$entry = array(
-				'id' => $match['id'],
+				'id' => strval($match['id']),
 				'text' => $match['name']
 			);
 
-			array_push($transformed, $entry)
+			array_push($transformed, $entry);
 		}
 
 		return $transformed;
