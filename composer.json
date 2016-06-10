@@ -12,10 +12,15 @@
         {
             "type": "git",
             "url": "https://github.com/FlowCommunications/JSONPath.git"
+        },
+        {
+            "type": "git",
+            "url": "ssh://git@bitbucket.org/makeandship/medicines-client-php.git"
         }
     ],
     "require": {
         "composer/installers": "*",
-        "flow/jsonpath": "dev-master"
+        "flow/jsonpath": "dev-master",
+        "makeandship/medicines-client-php": "dev-master"
     }
 }
