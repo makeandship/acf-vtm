@@ -70,7 +70,7 @@ class acf_field_vtm extends acf_field {
 	
 	function __construct( $settings ) {
 		$this->name = 'vtm';
-		$this->label = __('Medicine Pack', 'acf-vtm');
+		$this->label = __('Medicine (VTM)', 'acf-vtm');
 		$this->category = 'choice';
 		$this->defaults = array(
 			'post_type'		=> array(),
