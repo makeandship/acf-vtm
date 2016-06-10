@@ -1,9 +1,9 @@
 <?php
 
 /*
-Plugin Name: Advanced Custom Fields: Medicine Pack
-Plugin URI: http://www.github.com/makeandship/acf-medicine-pack
-Description: Select a medicines pack entry from Dictionary of Medicines and Devices
+Plugin Name: Advanced Custom Fields: Medicine (VTM)
+Plugin URI: http://www.github.com/makeandship/acf-vtm
+Description: Select a medicine (VTM) from Dictionary of Medicines and Devices
 Version: 1.0.0
 Author: Make and Ship Limited
 Author URI: http://www.makeandship.com
