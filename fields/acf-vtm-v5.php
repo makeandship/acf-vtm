@@ -58,8 +58,6 @@ class acf_field_vtm extends acf_field {
 
 		add_action('wp_ajax_acf/fields/vtm/query', array($this, 'ajax_query'));
 		add_action('wp_ajax_nopriv_acf/fields/vtm/query',	array($this, 'ajax_query'));
-
-		add_action('acf/save_post', array($this, 'update_medicine_information'), 1);
 		
 		// do not delete!
     	parent::__construct();
@@ -205,10 +203,10 @@ class acf_field_vtm extends acf_field {
 			$name = '';
 			
 			// get the medicine
-			$ampp = $this->api->ampp($field['value']);
-			if ($ampp) {
-				$jsonpath = new JSONPath($ampp);
-				$selector = '$.'.self::MEDICINES_FIELDS['ampp_name'];
+			$vtm = $this->api->vtm($field['value']);
+			if ($vtm) {
+				$jsonpath = new JSONPath($vtm);
+				$selector = '$.name';
 				$match = $jsonpath->find($selector);
 				$data = $match->data();
 				if ($data && is_array($data) && count($data) === 1) {
@@ -433,71 +431,6 @@ class acf_field_vtm extends acf_field {
 	}
 	*/
 
-	function update_medicine_information($post_id) {
-		$field = $this->get_acf_field_by_name('ampp_id', false, $post_id);
-		if ( isset($field['key'])) {
-			$field_key = $field['key'];
-			$ampp_id = $_POST['acf'][$field_key];
-			
-			// get the medicine 
-			$medicine = $this->api->ampp( $ampp_id );
-			
-			//if ($medicine) {
-			foreach(self::MEDICINES_FIELDS as $key => $pattern) {
-				$this->update_medicine_field($key, $pattern, $medicine);
-			}
-			//}
-		}
-	}
-	
-	function update_medicine_field($field_name, $pattern, $medicine) {
-
-		if (!$this->jsonpath) {
-			$this->jsonpath = new JSONPath($medicine);
-		}
-		
-		$field = $this->get_acf_field_by_name($field_name, false);
-		if (isset($field['key'])) {
-			$field_key = $field['key'];
-			
-			$value = null;
-			
-			if ($pattern) {
-				$selector = '$.'.$pattern;
-				$match = $this->jsonpath->find($selector);
-				$value = $match->data();
-				
-				if (is_array($value) && count($value) === 1) {
-					$value = $value[0];
-				}
-			}	
-			
-			$_POST['acf'][$field_key] = $value;
-			
-		}
-	}
-	
-	function get_acf_field_by_name($name = '', $db_only = false) {
-		$args = array(
-			'posts_per_page'	=> 0,
-			'post_type'			=> 'acf-field',
-			'orderby' 			=> 'menu_order title',
-			'order'				=> 'ASC',
-			'suppress_filters'	=> false,
-			'acf_field_name'	=> $name
-		);
-		// load posts
-		$posts = get_posts( $args );
-		
-		// return first one that is not a tab
-		foreach($posts as $post) {
-			$field = _acf_get_field_by_id($post->ID, $db_only);
-			if ( $field['type'] !== 'tab') {
-				return $field;
-			}
-		}
-	}
-	
 	/*
 	*  format_value()
 	*
