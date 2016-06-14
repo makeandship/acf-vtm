@@ -203,7 +203,10 @@ class acf_field_vtm extends acf_field {
 			$name = '';
 			
 			// get the medicine
-			$vtm = $this->api->vtm($field['value']);
+			$query = array(
+				"scheme" => "core"
+			);
+			$vtm = $this->api->vtm($field['value'], $query);
 			if ($vtm) {
 				$jsonpath = new JSONPath($vtm);
 				$selector = '$.name';
