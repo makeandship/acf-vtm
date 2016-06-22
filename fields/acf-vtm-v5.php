@@ -195,6 +195,8 @@ class acf_field_vtm extends acf_field {
 	
 	function render_field( $field ) {
 		
+		$this->field_name = $field['_name'];
+		
 		$field['type'] = 'select';
 		$field['ui'] = 1;
 		$field['ajax'] = 1;
