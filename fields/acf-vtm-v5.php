@@ -79,6 +79,7 @@ class acf_field_vtm extends acf_field {
 	function find_vtms( $name ) {
 		$query = array();
 		$query['name'] = $name;
+		$query['per'] = 100;
 
 		$results = $this->api->vtms($query);
 		
