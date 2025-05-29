@@ -1,18 +1,14 @@
 {
-    "name": "makeandship/acf-vtm",
+    "name": "ceremium/acf-vtm",
     "description": "Medicine field type for ACF",
     "type": "wordpress-plugin",
     "authors": [
         {
-            "name": "Make and Ship Limited",
-            "homepage": "https://www.makeandship.com/"
+            "name": "Ceremium Limited",
+            "homepage": "https://www.ceremium.com/"
         }
     ],
     "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/FlowCommunications/JSONPath.git"
-        },
         {
             "type": "git",
             "url": "https://github.com/ceremium/medicines-client-php.git"
@@ -20,7 +16,11 @@
     ],
     "require": {
         "composer/installers": "*",
-        "flow/jsonpath": "dev-master",
-        "ceremium/medicines-client-php": "dev-main"
+        "ceremium/medicines-client-php": "v1.0.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
     }
 }
